@@ -1,13 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}">
 
-<h2>Login Page</h2>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">My App</a>
+        </div>
+    </nav>
+    
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4" style="width: 25rem; background-color: var(--secondary-color);">
+            <h3 class="text-center">Login</h3>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control">
+                </div>
 
-<form method="POST" action="/login">
-    @csrf
-    <label>Username: <input type="text" name="username"></label><br>
-    <label>Password: <input type="password" name="password"></label><br>
-    <button type="submit">Login</button>
-</form>
-
-@if ($errors->any())
-    <p style="color:red;">{{ $errors->first() }}</p>
-@endif
+            </form>
+            <button class="btn btn-primary w-100">
+                <a href="dashboard">Login</a></button>
+            <p class="mt-3 text-center">Don't have an account? <a href="register">Register</a></p>
+        </div>
+    </div>
+</body>
+</html>
