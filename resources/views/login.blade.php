@@ -19,20 +19,21 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4" style="width: 25rem; background-color: var(--secondary-color);">
             <h3 class="text-center">Login</h3>
-            <form>
+            <form method="POST" action="{{route('login')}}">
+                @csrf
                 <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" class="form-control" name="username" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" class="form-control" name="password" required>
                 </div>
-
+                <button class="btn btn-primary w-100" type="submit">Login</button>
             </form>
-            <button class="btn btn-primary w-100">
-                <a href="dashboard">Login</a></button>
-            <p class="mt-3 text-center">Don't have an account? <a href="register">Register</a></p>
+            
+                
+            <p class="mt-3 text-center">Don't have an account? <a href="{{ route('register') }}">Register</a></p>
         </div>
     </div>
 </body>

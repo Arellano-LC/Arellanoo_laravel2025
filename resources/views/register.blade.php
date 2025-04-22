@@ -17,7 +17,7 @@
     <div class="card p-4" style="width: 25rem;">
         <h3 class="text-center mb-3">Register</h3>
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register.save') }}">
             @csrf
 
             <div class="mb-2">
