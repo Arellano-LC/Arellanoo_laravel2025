@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 class RegistrationController extends Controller
+
 {
     //
 
@@ -24,6 +25,8 @@ class RegistrationController extends Controller
         $user->save();
 
         return redirect()->route('login')->with('success', 'Registered successfully');
+
+        
 
     }
 
