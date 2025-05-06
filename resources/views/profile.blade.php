@@ -61,7 +61,7 @@
 
         {{-- Change password form (optional) --}}
         <h3 class="mt-5">Change Password</h3>
-        <form action="{{ route('password.change') }}" method="POST">
+        <form action="{{ route('password.update') }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Current Password</label>

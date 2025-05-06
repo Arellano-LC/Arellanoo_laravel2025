@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,13 +10,30 @@
     <link rel="stylesheet" href="{{ asset('styles.css') }}">
 
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="#">My App</a>
         </div>
     </nav>
-    
+    @if (session('success'))
+        <div class="alert alert-success text-center">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if($errors->any())
+        <div class="mt-3">
+            @if ($errors->has('email'))
+                <div class="alert alert-warning text-center">
+                    {{ $errors->first('email') }}
+                </div>
+            @else
+                <div class="alert alert-warning text-danger text-center">{{ $errors->first() }}</div>
+            @endif
+        </div>
+    @endif
+
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4" style="width: 25rem; background-color: var(--secondary-color);">
             <h3 class="text-center">Login</h3>
@@ -31,10 +49,11 @@
                 </div>
                 <button class="btn btn-primary w-100" type="submit">Login</button>
             </form>
-            
-                
+
+
             <p class="mt-3 text-center">Don't have an account? <a href="{{ route('register') }}">Register</a></p>
         </div>
     </div>
 </body>
+
 </html>

@@ -2,49 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-
+use App\Models\Usersinfo;
 class AuthController extends Controller
 {
-    // Admin view: List users with search and pagination
-    public function listUsers(Request $request)
+    //
+
+
+
+    public function login(LoginRequest $request)
     {
-        $query = User::query();
-
-        if ($request->filled('name')) {
-            $query->where('first_name', 'like', '%' . $request->name . '%');
-        }
-
-        if ($request->filled('email')) {
-            $query->where('email', 'like', '%' . $request->email . '%');
-        }
-
-        $users = $query->paginate(10);
-
-        return view('admin.users', compact('users'));
-    }
-
-    // Login functionality
-    public function login(Request $request)
-    {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('username', $request->username)->first();
-
+        $user = Usersinfo::where('username', $request->username)->first();
+    
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user); // Use Laravel auth
-            $request->session()->regenerate();
+            if (is_null($user->email_verified_at)) {
+                return back()->withErrors([
+                    'email' => 'Please verify your email before logging in.',
+                ])->withInput();
+            }
+    
+            
+            session(['user_id' => $user->id]);
             return redirect()->route('dashboard');
         }
-
+    
         return back()->withErrors([
             'username' => 'Invalid username or password.',
         ]);
     }
+    
+
+    public function showLoginForm()
+    {
+        return view('login');
+    }
+
+
+
+    public function verifyEmail($token)
+    {
+        $user = Usersinfo::where('verification_token', $token)->firstOrFail();
+    
+        $user->email_verified_at = now();
+        $user->verification_token = null;
+        $user->save();
+    
+        return redirect()->route('login')->with('success', 'Email verified! You can now log in.');
+    }
+
 }

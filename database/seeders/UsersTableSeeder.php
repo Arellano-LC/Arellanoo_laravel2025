@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class UsersTableSeeder extends Seeder
+class UserstableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29,6 +29,8 @@ class UsersTableSeeder extends Seeder
                 'user_type' => 'Admin',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'email_verified_at' => null,
+                'verification_token' => Str::random(32),
             ],
             [
                 'id' => Str::uuid(),
@@ -43,6 +45,13 @@ class UsersTableSeeder extends Seeder
                 'user_type' => 'Customer',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'email_verified_at' => null,
+                'verification_token' => Str::random(32),
+                
+                
+
+
+                
             ]
         ]);
     }
