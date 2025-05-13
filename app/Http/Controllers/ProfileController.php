@@ -18,7 +18,7 @@ class ProfileController extends Controller
             return redirect()->route('login')->with('error', 'You must be logged in to edit your profile.');
         }
 
-        return view('profile.edit', compact('user'));
+        return view('profile.update', compact('user'));
     }
 
     // Handle the Profile Update

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Verify Your Email</title>
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('styles.css') }}" rel="stylesheet">
 </head>
 <body>
     

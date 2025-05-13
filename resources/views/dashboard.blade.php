@@ -27,8 +27,8 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('uploads') }}">Uploads</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('profile') }}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('upload') }}">Uploads</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('login') }}">Logout</a></li>
                 </ul>
             </div>

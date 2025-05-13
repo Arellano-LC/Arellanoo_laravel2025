@@ -1,66 +1,47 @@
 <?php
 
-use App\Http\Controllers\EmailVerificationController;
-use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 
-
+// Public Welcome Page
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
-// //login Controller
-// Route::post('/login', [AuthController::class, 'login'])->name('login');
-
-
+// Guest Routes (Login/Register)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-    Route::get('/register', function () {
-        return view('registration');
-    })->name('register');
-
+    Route::get('/register', fn () => view('registration'))->name('register');
     Route::post('/register', [RegistrationController::class, 'save'])->name('register.save');
 });
 
+// Dashboard (Authenticated users)
+Route::get('/dashboard', fn () => view('dashboard'))->middleware('auth')->name('dashboard');
 
-Route::get('/dashboard', function (){
-    return view('dashboard');
-})->name('dashboard');
+// Profile Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
 
+    Route::get('/edit-password', [PasswordController::class, 'edit'])->name('password.edit');
+    Route::post('/edit-password', [PasswordController::class, 'update'])->name('password.update');
+});
 
-//REGISTRATION CONTROLLER --  TODO: MOVE TO A CONTROLLER FOR A BETTER CODE AYAW KALIMTA.
-
-Route::post('/register', [RegistrationController:: class, 'save'])->name('register.save');
-
-//Controller for editing name and username
-Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::post('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
-
-//Controller for changeing password
-
-Route::get('/edit-password', [PasswordController::class, 'edit'])->name('password.edit');
-Route::post('/edit-password', [PasswordController::class, 'update'])->name('password.update');
-
-//Controller route for display user
-Route::get('/users', [UserController::class, 'index'])->name('user.list');
-
-Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-
-//Controller for upload view and uploading
+// Upload Routes
 Route::middleware(['custom.auth'])->group(function () {
     Route::get('/upload', [UploadController::class, 'create'])->name('upload.create');
     Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
@@ -70,20 +51,29 @@ Route::middleware(['custom.auth'])->group(function () {
 });
 Route::redirect('/uploads', '/my-uploads');
 
-
-//request verification
-Route::get('/verify-email/{token}', [AuthController::class, 'verifyEmail'])->name('verify.email');
-
-
-
-// View to enter email for verification// verification for email
+// Email Verification Routes
 Route::get('/verify-email', [EmailVerificationController::class, 'showVerificationForm'])->name('verify.email.form');
 Route::post('/verify-email', [EmailVerificationController::class, 'sendVerificationEmail'])->name('verify.email.send');
 Route::get('/verify-email-token/{token}', [EmailVerificationController::class, 'verifyToken'])->name('verify.email.token');
 
-
+// Forgot/Reset Password Routes
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showRequestForm'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
-
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.change');
+
+// General User Management (auth protected)
+Route::middleware('auth')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('user.list');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+});
+
+// Admin Routes
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    // Admin-only User List and Export
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/export', [AdminUserController::class, 'export'])->name('admin.users.export');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+    
+    // Future admin reports can be placed here...
+});
