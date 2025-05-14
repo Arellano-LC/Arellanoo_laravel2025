@@ -7,6 +7,7 @@
     <title>Upload File</title>
 
     {{-- Link to your custom CSS file --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="{{ asset('styles.css') }}" rel="stylesheet">
 
     {{-- Optional: Include Bootstrap if not already in styles.css --}}
@@ -34,11 +35,8 @@
             {{-- File input --}}
             <div class="mb-3">
                 <label for="file" class="form-label">Choose Files</label>
-                <input type="file" 
-                       id="file" 
-                       name="file[]" 
-                       class="form-control @error('file.*') is-invalid @enderror" 
-                       multiple required>
+                <input type="file" id="file" name="file[]"
+                    class="form-control @error('file.*') is-invalid @enderror" multiple required>
 
                 {{-- Display validation error if any --}}
                 @error('file.*')

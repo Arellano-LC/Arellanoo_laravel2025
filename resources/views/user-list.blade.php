@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User List</title>
     <link rel="stylesheet" href="{{ asset('styles.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -47,21 +52,17 @@
                         </div>
 
                         <!-- Filter and Clear Buttons -->
-                        <div class="col-md-4 d-flex gap-2">
+                         <div class="col-md-4 d-flex flex-wrap gap-2">
                             <button type="submit" class="btn btn-primary">Filter</button>
-                            @if (request('name') || request('email'))
-                                <!-- Clear Filters Button -->
+                            @if(request('name') || request('email'))
                                 <a href="{{ route('user.list') }}" class="btn btn-outline-secondary">Clear Filters</a>
-
-                                <!-- Download CSV Button -->
-                                <form method="GET" action="{{ route('admin.users.export') }}" class="mt-2">
-                                    <input type="hidden" name="name" value="{{ request('name') }}">
-                                    <input type="hidden" name="email" value="{{ request('email') }}">
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="bi bi-download"></i> Download CSV
-                                    </button>
-                                </form>
                             @endif
+                            <div class="col-md-4">
+                                <a href="{{ route('user.export', request()->query()) }}"
+                                    class="btn btn-success">Download
+                                    CSV</a>
+                            </div>
+
                         </div>
                     </div>
                 </form>

@@ -16,8 +16,8 @@ class UpdateProfileRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:50|regex:/^[a-zA-Z\s\'\-]+$/',
             'last_name' => 'required|string|max:50|regex:/^[a-zA-Z\s\'\-]+$/',
-            'username' => 'required|string|max:100|unique:usersinfo,username,' . authUser()->id
-            . ',id',
+            'username' => 'required|string|max:100|unique:usersinfo,username,' . auth()->id() . ',id',
+             ',id',
         ];
     }
 

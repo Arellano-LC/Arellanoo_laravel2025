@@ -36,7 +36,7 @@ class VerifyEmailNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = url("/verify-email/{$this->token}");
+        $url = url("/verify-email-token/{$this->token}");
 
         return (new MailMessage)
             ->subject('Confirm Your Email')

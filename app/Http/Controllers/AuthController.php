@@ -11,27 +11,31 @@ class AuthController extends Controller
     //
 
 
+public function login(LoginRequest $request) 
+{
+    $user = Usersinfo::where('username', $request->username)->first();
 
-    public function login(LoginRequest $request)
-    {
-        $user = Usersinfo::where('username', $request->username)->first();
-    
-        if ($user && Hash::check($request->password, $user->password)) {
-            if (is_null($user->email_verified_at)) {
-                return back()->withErrors([
-                    'email' => 'Please verify your email before logging in.',
-                ])->withInput();
-            }
-    
-            
-            session(['user_id' => $user->id]);
-            return redirect()->route('dashboard');
+    if ($user && Hash::check($request->password, $user->password)) {
+        if (is_null($user->email_verified_at)) {
+            return back()->withErrors([
+                'email' => 'Please verify your email before logging in.',
+            ])->withInput();
         }
-    
-        return back()->withErrors([
-            'username' => 'Invalid username or password.',
+
+        // ✅ Store full user object in session
+        session([
+            'user_id' => $user->id,
+            'user' => $user
         ]);
+
+        return redirect()->route('dashboard');
     }
+
+    return back()->withErrors([
+        'username' => 'Invalid username or password.',
+    ]);
+}
+
     
 
     public function showLoginForm()

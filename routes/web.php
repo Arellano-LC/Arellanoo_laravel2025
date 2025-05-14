@@ -13,6 +13,8 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ReportController;
+
 
 // Public Welcome Page
 Route::get('/', function () {
@@ -24,22 +26,23 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-    Route::get('/register', fn () => view('registration'))->name('register');
+    Route::get('/register', fn() => view('registration'))->name('register');
     Route::post('/register', [RegistrationController::class, 'save'])->name('register.save');
 });
 
 // Dashboard (Authenticated users)
-Route::get('/dashboard', fn () => view('dashboard'))->middleware('auth')->name('dashboard');
+Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
 
 // Profile Routes
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('/edit-password', [PasswordController::class, 'edit'])->name('password.edit');
-    Route::post('/edit-password', [PasswordController::class, 'update'])->name('password.update');
-});
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
+
+Route::get('/edit-password', [PasswordController::class, 'edit'])->name('password.edit');
+Route::post('/edit-password', [PasswordController::class, 'update'])->name('password.update');
+
 
 // Upload Routes
 Route::middleware(['custom.auth'])->group(function () {
@@ -63,10 +66,10 @@ Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showRese
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.change');
 
 // General User Management (auth protected)
-Route::middleware('auth')->group(function () {
+
     Route::get('/users', [UserController::class, 'index'])->name('user.list');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-});
+
 
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
@@ -74,6 +77,17 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/export', [AdminUserController::class, 'export'])->name('admin.users.export');
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
-    
+
     // Future admin reports can be placed here...
+
 });
+Route::get('/users/export', [UserController::class, 'export'])->name('user.export');
+
+//report route
+
+
+Route::get('/admin/reports', [ReportController::class, 'index'])->name('admin.reports');
+
+
+
+Route::get('/users/export', [UserController::class, 'export'])->name('user.export');
