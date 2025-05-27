@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Profile</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom styles -->
     <link rel="stylesheet" href="{{ asset('styles.css') }}">
 </head>
 
@@ -14,6 +16,7 @@
 
     @include('nav')
 
+    <!-- Toast for success or error messages -->
     @if (session('success') || $errors->any())
         <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
             <div class="toast fade show shadow-lg text-white {{ session('success') ? 'bg-success' : 'bg-danger' }}"
@@ -43,6 +46,7 @@
                 <div class="card shadow-sm">
                     <div class="card-header text-center fw-bold">Edit Profile</div>
                     <div class="card-body p-3">
+                        <!-- Edit Profile Form -->
                         <form action="{{ route('profile.update') }}" method="POST">
                             @csrf
                             <div class="mb-2">
@@ -76,14 +80,17 @@
                                 <button type="submit" class="btn btn-primary btn-md">Update Profile</button>
                             </div>
                         </form>
+                        <!-- End Edit Profile Form -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Show toast notification on page load
         document.addEventListener('DOMContentLoaded', function () {
             const toastEl = document.querySelector('.toast');
             if (toastEl) {

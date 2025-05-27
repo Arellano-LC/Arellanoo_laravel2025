@@ -17,7 +17,7 @@ class UpdateProfileRequest extends FormRequest
             'first_name' => 'required|string|max:50|regex:/^[a-zA-Z\s\'\-]+$/',
             'last_name' => 'required|string|max:50|regex:/^[a-zA-Z\s\'\-]+$/',
             'username' => 'required|string|max:100|unique:usersinfo,username,' . auth()->id() . ',id',
-             ',id',
+            ',id',
         ];
     }
 
@@ -39,8 +39,8 @@ class UpdateProfileRequest extends FormRequest
     }
 
     // Place this in AppServiceProvider boot(), or a global helpers.php file
-function authUser() {
-    return \App\Models\Usersinfo::find(session('user_id'));
-}
-
+    function authUser()
+    {
+        return \App\Models\Usersinfo::find(session('user_id'));
+    }
 }

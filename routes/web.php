@@ -67,8 +67,8 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name(
 
 // General User Management (auth protected)
 
-    Route::get('/users', [UserController::class, 'index'])->name('user.list');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/users', [UserController::class, 'index'])->name('user.list');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 
 // Admin Routes

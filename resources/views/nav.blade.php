@@ -149,11 +149,10 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav me-auto">
                     <!-- Link to uploaded files page -->
-                    <li class="nav-item"><a class="nav-link" href="{{ route('upload.index') }}">Uploaded Files</a></li>
-                    <!-- Link to profile editing page -->
-                    <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Edit Profile</a></li>
+                    
+
                     <!-- Link to change password page -->
-                    <li class="nav-item"><a class="nav-link" href="{{ route('password.edit') }}">Change Password</a>
+
                     </li>
                     <!-- Show this link if the user is an admin -->
                     @if (session('user') && session('user')->user_type === 'Admin')
